@@ -1,0 +1,1 @@
+HapiJs Typescript sample project
