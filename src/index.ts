@@ -2,6 +2,10 @@
 
 import { Server, Request, ResponseToolkit } from "@hapi/hapi";
 
+import * as HapiSwagger from "hapi-swagger";
+const Inert = require("@hapi/inert");
+const Vision = require("@hapi/vision");
+
 import productsRoutes from "./products/router";
 
 const init = async () => {
@@ -12,6 +16,23 @@ const init = async () => {
             cors: true,
         },
     });
+
+    const swaggerOptions = {
+        info: {
+            title: "Test API Documentation",
+            version: "0.0.1",
+        },
+        schemes: ["http", "https"],
+    };
+
+    await server.register([
+        Inert,
+        Vision,
+        {
+            plugin: HapiSwagger,
+            options: swaggerOptions,
+        },
+    ]);
 
     server.route({
         method: "GET",
