@@ -6,13 +6,15 @@ import * as HapiSwagger from "hapi-swagger";
 const Inert = require("@hapi/inert");
 const Vision = require("@hapi/vision");
 
+import config from "./config";
+
 import productsRoutes from "./products/router";
 
 const init = async () => {
   // server instance created
   const server: Server = new Server({
-    port: 4000,
-    host: "localhost",
+    port: config.PORT,
+    host: config.HOSTNAME,
     routes: {
       cors: true,
     },

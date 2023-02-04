@@ -5,7 +5,7 @@ import { fetchAllProducts, fetchSingleProduct } from "./repo";
 import { sendSuccessResponse, sendErrorResponse } from "../helpers/formatResponse";
 
 export const getAllProductsHandler = async (request: Request, h: ResponseToolkit) => {
-  const response = fetchAllProducts(request.query.category);
+  const response = await fetchAllProducts(request.query.category);
   if (isLeft(response)) {
     return sendErrorResponse({ h });
   }
@@ -13,7 +13,7 @@ export const getAllProductsHandler = async (request: Request, h: ResponseToolkit
 };
 
 export const getSingleProductHandler = async (request: Request, h: ResponseToolkit) => {
-  const response = fetchSingleProduct(request.params.productId);
+  const response = await fetchSingleProduct(request.params.productId);
   if (isLeft(response)) {
     return sendErrorResponse({ h, message: response.left, statusCode: 400 });
   }
