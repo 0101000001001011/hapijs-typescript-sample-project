@@ -1,18 +1,21 @@
 import { Request, ResponseToolkit } from "@hapi/hapi";
-import { fetchAllProducts, fetchSingleProduct } from "./repo";
+import { isLeft } from "fp-ts/lib/Either";
 
-export const getAllProductsHandler = async (
-    request: Request,
-    h: ResponseToolkit,
-) => {
-    const data = fetchAllProducts(request.query.category);
-    return h.response(data).code(200);
+import { fetchAllProducts, fetchSingleProduct } from "./repo";
+import { sendSuccessResponse, sendErrorResponse } from "../helpers/formatResponse";
+
+export const getAllProductsHandler = async (request: Request, h: ResponseToolkit) => {
+  const response = fetchAllProducts(request.query.category);
+  if (isLeft(response)) {
+    return sendErrorResponse({ h });
+  }
+  return sendSuccessResponse({ h, data: response.right });
 };
 
-export const getSingleProductHandler = async (
-    request: Request,
-    h: ResponseToolkit,
-) => {
-    const data = fetchSingleProduct(request.params.productId);
-    return h.response(data).code(200);
+export const getSingleProductHandler = async (request: Request, h: ResponseToolkit) => {
+  const response = fetchSingleProduct(request.params.productId);
+  if (isLeft(response)) {
+    return sendErrorResponse({ h, message: response.left, statusCode: 400 });
+  }
+  return sendSuccessResponse({ h, data: response.right });
 };

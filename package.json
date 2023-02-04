@@ -23,6 +23,7 @@
         "@hapi/hapi": "^21.2.1",
         "@hapi/inert": "^7.0.0",
         "@hapi/vision": "^7.0.0",
+        "fp-ts": "^2.13.1",
         "hapi-swagger": "^15.0.0",
         "ramda": "^0.28.0"
     }
